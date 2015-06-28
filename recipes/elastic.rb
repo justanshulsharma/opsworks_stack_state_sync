@@ -4,6 +4,7 @@ require 'resolv'
 service "elasticsearch" do
   supports status: true, restart: true
   action [ :enable ]
+  only_if { File.exist?("/etc/init.d/elasticsearch") }
 end
 
 # Create ES config file
