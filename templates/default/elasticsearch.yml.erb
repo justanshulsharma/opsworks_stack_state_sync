@@ -73,6 +73,7 @@ discovery.zen.minimum_master_nodes: <%= (@nodes.length / 2).floor + 1 -%>
 <% if node.attributes.attribute?(:private_ip) && node.attributes.private_ip && Resolv.getaddress(node.attributes.private_ip) -%>
   <% results << node.attributes.private_ip %>
 <% end -%>
+<% end -%>
 
 discovery.zen.ping.unicast.hosts: <%= results %>
 
