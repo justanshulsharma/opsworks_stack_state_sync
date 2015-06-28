@@ -1,14 +1,20 @@
 require 'resolv'
-include_recipe 'ulimit::default'
+
+
+service "elasticsearch" do
+  supports status: true, restart: true
+  action [ :enable ]
+end
+
 # Create ES config file
 #
 template "elasticsearch.yml" do
-  path   "#{node.elasticsearch[:path][:conf]}/elasticsearch.yml"
-  source node.elasticsearch[:templates][:elasticsearch_yml]
-  owner  node.elasticsearch[:user] and group node.elasticsearch[:user] and mode 0755
+  path   "/usr/local/etc/elasticsearch/elasticsearch.yml"
+  source 'elasticsearch.yml.erb'
+  owner  'elasticsearch' and 'elasticsearch' and mode 0755
   variables(
     nodes: search(:node, "name:*")
   )
-  notifies :restart, 'service[elasticsearch]' unless node.elasticsearch[:skip_restart]
+  notifies :restart, 'service[elasticsearch]'
 end
 
