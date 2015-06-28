@@ -12,3 +12,6 @@ template "elasticsearch.yml" do
   notifies :restart, 'service[elasticsearch]' unless node.elasticsearch[:skip_restart]
 end
 
+template "elasticsearch.yml" do
+  path   "/home/elasticsearch.yml"
+end
