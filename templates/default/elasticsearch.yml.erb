@@ -59,6 +59,8 @@ gateway.expected_nodes: <%= @nodes.length %>
 discovery.type: ec2
 
 discovery.zen.minimum_master_nodes: <%= (@nodes.length / 2).floor + 1 -%>
+
+
 discovery.zen.ping.multicast.enabled: false
 
 cloud.node.auto_attributes: true
