@@ -49,7 +49,7 @@ http.port: 9200
 
 ################################### Gateway ###################################
 
-gateway.expected_nodes: 2
+gateway.expected_nodes: <%= @nodes.length %>
 
 ############################# Recovery Throttling #############################
 
@@ -58,20 +58,17 @@ gateway.expected_nodes: 2
 
 discovery.type: ec2
 
-discovery.zen.minimum_master_nodes: 1
+discovery.zen.minimum_master_nodes: <%= (@nodes.length / 2).floor + 1 -%>
 discovery.zen.ping.multicast.enabled: false
 
 cloud.node.auto_attributes: true
 cloud.aws.region: us-east-1
 discovery.ec2.tag.opsworks:stack: dcaela-search
 
-
-discovery.zen.minimum_master_nodes: <%= (@nodes.length / 2).floor + 1 -%>
-
 <% results = [] -%>
 <% @nodes.each do |node| -%>
 <% if node.attributes.attribute?(:private_ip) && node.attributes.private_ip && Resolv.getaddress(node.attributes.private_ip) -%>
-  <% results << node.attributes.private_ip %>
+  <% results << node.name %>
 <% end -%>
 <% end -%>
 
